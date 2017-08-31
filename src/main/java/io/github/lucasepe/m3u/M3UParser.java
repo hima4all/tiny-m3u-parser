@@ -3,11 +3,10 @@ package io.github.lucasepe.m3u;
 import io.github.lucasepe.core.uri.Uri;
 import io.github.lucasepe.core.utils.IOUtils;
 import io.github.lucasepe.core.utils.Strings;
-import io.github.lucasepe.m3u.models.Key;
-import io.github.lucasepe.m3u.models.Playlist;
-import io.github.lucasepe.m3u.models.Segment;
-import io.github.lucasepe.m3u.models.Stream;
+import io.github.lucasepe.m3u.models.*;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 //https://pypkg.com/pypi/pytoutv/src/toutv/m3u8.py
+//https://developer.apple.com/library/content/technotes/tn2288/_index.html#//apple_ref/doc/uid/DTS40012238-CH1-ALTERNATE_MEDIA
 
 public class M3UParser {
     private static final Logger LOG = Logger.getLogger(M3UParser.class.getName());
@@ -34,6 +34,17 @@ public class M3UParser {
                     is = con.getInputStream();
                     return parse(is);
                 }
+            } finally {
+                IOUtils.closeQuietly(is);
+            }
+        }
+
+        else {
+            InputStream is = null;
+            try {
+                is = new FileInputStream(new File(uri.toString()));
+                return parse(is);
+
             } finally {
                 IOUtils.closeQuietly(is);
             }
@@ -92,6 +103,15 @@ public class M3UParser {
                 case EXT_X_PLAYLIST_TYPE:{
                     String playListType = attributes.size() > 0 ? attributes.get(0) : null;
                     playlist.setPlayListType(playListType);
+                    break;
+                }
+
+                case EXT_X_MEDIA: {
+                    playlist.getMedia().add(
+                            new Media.Builder(getAttributeValue(attributes, "TYPE"))
+                                    .withUri(getAttributeValue(attributes, "URI"))
+                                    .withGroupId(getAttributeValue(attributes, "GROUP-ID"))
+                                    .build());
                     break;
                 }
 

@@ -1,6 +1,7 @@
 package io.github.lucasepe.m3u;
 
 import io.github.lucasepe.core.uri.Uri;
+import io.github.lucasepe.m3u.models.Media;
 import io.github.lucasepe.m3u.models.Playlist;
 import io.github.lucasepe.m3u.models.Segment;
 import io.github.lucasepe.m3u.models.Stream;
@@ -29,6 +30,12 @@ public class Demo {
         List<Segment> segments = playlist.getSegments();
         for (Segment segment: segments) {
             System.out.println(segment);
+        }
+
+        System.out.println();
+        List<Media> media = playlist.getMedia();
+        for (Media m: media) {
+            System.out.println(media);
         }
     }
 
