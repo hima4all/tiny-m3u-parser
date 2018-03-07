@@ -8,6 +8,7 @@ public class Playlist {
 
     private final List<Stream> streams;
     private final List<Segment> segments;
+    private final List<Group> groups;
     private final List<Media> media;
 
     private double targetDuration = 0.0;
@@ -17,6 +18,7 @@ public class Playlist {
     private int mediaSequence = 0;
 
     public Playlist() {
+    	this.groups = new LinkedList<>();
         this.streams = new LinkedList<>();
         this.segments = new LinkedList<>();
         this.media = new LinkedList<>();
@@ -27,9 +29,13 @@ public class Playlist {
     public List<Segment> getSegments() { return segments; }
 
     public List<Media> getMedia() { return media; }
+    
 
+    public List<Group> getGroups() {
+		return groups;
+	}
 
-    public boolean isAllowCache() { return allowCache; }
+	public boolean isAllowCache() { return allowCache; }
     public void setAllowCache(final boolean allowCache) { this.allowCache = allowCache; }
 
     public String getPlayListType() { return playListType; }

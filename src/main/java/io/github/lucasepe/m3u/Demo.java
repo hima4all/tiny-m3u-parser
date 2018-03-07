@@ -1,6 +1,7 @@
 package io.github.lucasepe.m3u;
 
 import io.github.lucasepe.core.uri.Uri;
+import io.github.lucasepe.m3u.models.Group;
 import io.github.lucasepe.m3u.models.Media;
 import io.github.lucasepe.m3u.models.Playlist;
 import io.github.lucasepe.m3u.models.Segment;
@@ -11,7 +12,8 @@ import java.util.List;
 public class Demo {
 
     public static void testPlayListFromHttp() throws Exception {
-        Uri uri = Uri.parse("C:\\Users\\sepelu\\Projects\\Java\\Workspaces\\M3U\\src\\test\\resources\\correct.m3u8");
+       // Uri uri = Uri.parse("C:\\Users\\sepelu\\Projects\\Java\\Workspaces\\M3U\\src\\test\\resources\\correct.m3u8");
+        Uri uri = Uri.parse("C:\\eclipse_oygen_workspace\\tv_channels_mac154.m3u");
         //Uri uri = Uri.parse("https://raw.githubusercontent.com/grafov/m3u8/master/sample-playlists/wowza-vod-chunklist.m3u8");
         //Uri uri = Uri.parse("https://raw.githubusercontent.com/grafov/m3u8/master/sample-playlists/master-with-alternatives.m3u8");
         //Uri uri = Uri.parse("https://raw.githubusercontent.com/grafov/m3u8/master/sample-playlists/master-with-multiple-codecs.m3u8");
@@ -21,7 +23,7 @@ public class Demo {
         Playlist playlist = parser.parse(uri);
         System.out.println(playlist);
         System.out.println();
-        List<Stream> streams = playlist.getStreams();
+        /*List<Stream> streams = playlist.getStreams();
         for (Stream stream: streams) {
             System.out.println(stream);
         }
@@ -36,6 +38,10 @@ public class Demo {
         List<Media> media = playlist.getMedia();
         for (Media m: media) {
             System.out.println(media);
+        }*/
+        List<Group> groups = playlist.getGroups();
+        for (Group group: groups) {
+            System.out.println(group);
         }
     }
 

@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 public class M3UParser {
     private static final Logger LOG = Logger.getLogger(M3UParser.class.getName());
-
+    
 
     public Playlist parse(Uri uri) throws IOException {
         if (uri.getScheme().startsWith("http")) {
@@ -58,9 +58,9 @@ public class M3UParser {
         if (lines.length <= 1) {
             throw new IllegalArgumentException("input stream is empty");
         }
-
+        Group currentGroup = new Group("Bein");
         Playlist playlist = new Playlist();
-
+        playlist.getGroups().add(currentGroup);
         Key currentKey = null;
 
         //if (!M3U.SIGNATURE.equals(lines[0]))
@@ -134,6 +134,12 @@ public class M3UParser {
                 }
 
                 case EXTINF: {
+                	if (getAttributeValueAsString(attributes, 1, "").indexOf("==") != -1) {
+						// this is a new group
+                	currentGroup = new Group(getAttributeValueAsString(attributes, 1, "").replaceAll("=", "") );	
+					playlist.getGroups().add(currentGroup);
+                	}
+                	else {
                     Segment segment = new Segment();
                     segment.setDuration(getAttributeValueAsDouble(attributes, 0, -1));
                     segment.setTitle(getAttributeValueAsString(attributes, 1, ""));
@@ -141,6 +147,9 @@ public class M3UParser {
                     segment.setKey(currentKey);
 
                     playlist.getSegments().add(segment);
+                    
+                    currentGroup.getSegments().add(segment);
+                	}
                     break;
                 }
                 default:

@@ -24,7 +24,7 @@ public class M3U {
         EXT_X_I_FRAME_STREAM_INF("EXT-X-I-FRAME-STREAM-INF"),
         EXT_X_VERSION("EXT-X-VERSION"),
         EXTINF("EXTINF"),
-
+        EXTM3U("EXTM3U"),
         UNKNOWN("");
 
         final String tagName;
