@@ -159,7 +159,7 @@ nbdist/
 .nb-gradle/
 
 
-# Explicit for this project
+# Explicit for this android project
 src/test
 
 # End of https://www.gitignore.io/api/java,maven,intellij,eclipse,netbeans
